@@ -1,0 +1,7 @@
+- name: "Install KVM Hypervisor"
+  ansible.builtin.package:
+    name: "qemu-kvm"
+    state: "present"
+  become: true
+
+  ## TODO finish me, see https://wiki.ubuntuusers.de/KVM/ for KVM install

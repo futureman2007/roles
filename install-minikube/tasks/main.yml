@@ -1,0 +1,4 @@
+---
+- name: "Do prechecks"
+  ansible.builtin.import_tasks:
+    file: "./prechecks.yaml"

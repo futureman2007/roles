@@ -1,0 +1,27 @@
+- name: "Get info if CPU supports virtualization"
+  ansible.builtin.command:
+    cmd: "grep -E '^flags.*\b(vmx|svm)\b' /proc/cpuinfo"
+  register: cpu_results
+  changed_when: false
+
+- name: "Check for vmx or svm in the result"
+  ansible.builtin.assert:
+    that:
+      - cpu_results['stdout'] is search('(^|\\s)(vmx|svm)($|\\s)')
+      - cpu_results['rc'] == 0
+
+- name: "Get virtualization support info"
+  ansible.builtin.command:
+    cmd: "egrep --color 'vmx|svm' /proc/cpuinfo"
+  register: virtualisation_enabled
+  changed_when: false
+
+- name: "Check if virtualization is enabled"
+  ansible.builtin.assert:
+    that:
+      - virtualisation_enabled['stdout'] != ""
+      - virtualisation_enabled['rc'] == 0
+    fail_msg: >
+      Virtualization is not enabled! Please enable it in the BIOS.
+      Minikube cannot be installed without virtualization support. Aborting...
+    success_msg: "Virtualization is enabled and ready for Minikube."

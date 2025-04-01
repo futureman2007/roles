@@ -2,3 +2,14 @@
 - name: "Do prechecks"
   ansible.builtin.import_tasks:
     file: "./prechecks.yaml"
+  tags: "prechecks"
+
+- name: "Remove old installation of kvm and minikube"
+  ansible.builtin.import_tasks:
+    file: "./remove-old-installation"
+  tags: "clear"
+
+- name: "Install kvm and minikube"
+  ansible.builtin.import_tasks:
+    file: "./install-needed-components"
+  tags: "install"

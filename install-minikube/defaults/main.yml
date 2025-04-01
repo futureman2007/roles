@@ -1,2 +1,15 @@
 ---
 # defaults file for install-minikube
+
+# ===== Userconfig =====
+
+
+# ===== Minikube Config =====
+minikube_linux_binary_downloadurl: "https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64"
+minikube_linux_binary_destpath: "{{ ansible_env.USER }}/minikube_binaries"
+minikube_linux_binary_installcommand: "install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64"
+minikube_linux_binary_executable_destpath: "/usr/local/bin/minikube"
+
+# ===== KVM Config =====
+
+

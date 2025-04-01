@@ -4,4 +4,33 @@
     state: "present"
   become: true
 
-  ## TODO finish me, see https://wiki.ubuntuusers.de/KVM/ for KVM install
+- name: "Create folder for minikube binaries"
+  ansible.builtin.file:
+    path: "{{ minikube_linux_binary_destpath }}"
+    state: directory
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
+    mode: '0555' # read and exec for all allowed
+  become: true
+
+- name: "Download minikube latest binaries"
+  ansible.builtin.get_url:
+    url: "{{ minikube_linux_binary_downloadurl }}"
+    dest: "{{ minikube_linux_binary_destpath }}"
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
+    mode: '0555' # read and exec for all allowed
+
+- name: "Install minikube"
+  ansible.builtin.command:
+    cmd: "install minikube-linux-amd64 {{ minikube_linux_binary_executable_destpath }}"
+    chdir: "{{ minikube_linux_binary_destpath }}"
+    creates: "{{ minikube_linux_binary_executable_destpath }}"
+  become: true
+
+- name: "Add current user to group kvm. User: {{ ansible_env.USER }}"
+  ansible.builtin.user:
+    name: "{{ ansible_env.USER }}"
+    group: "kvm"
+    append: true
+  become: true

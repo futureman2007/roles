@@ -1,0 +1,20 @@
+- name: "Remove minikube installation and binaries"
+  ansible.builtin.file:
+    state: absent
+    path: "{{ item }}"
+  become: true
+  loop:
+    - "{{ minikube_linux_binary_destpath }}"
+    - "{{ minikube_linux_binary_executable_destpath }}"
+
+- name: "Remove KVM installation"
+  ansible.builtin.package:
+    name: "qemu-kvm"
+    state: "absent"
+  become: true
+
+- name: "Remove user from group kvm "
+  ansible.builtin.command: "gpasswd -d {{ ansible_env.USER }} kvm"
+  become: true
+  register: remove_user_result
+  changed_when: "'is not a member' not in remove_user_result.stderr"

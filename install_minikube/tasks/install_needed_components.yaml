@@ -1,6 +1,6 @@
 - name: "Install KVM Hypervisor"
   ansible.builtin.package:
-    name: "qemu-kvm"
+    name: "qemu-system-x86 "
     state: "present"
   become: true
 

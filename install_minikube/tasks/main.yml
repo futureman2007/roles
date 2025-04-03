@@ -6,10 +6,10 @@
 
 - name: "Remove old installation of kvm and minikube"
   ansible.builtin.import_tasks:
-    file: "./remove-old-installation"
+    file: "./remove_old_installation"
   tags: "clear"
 
 - name: "Install kvm and minikube"
   ansible.builtin.import_tasks:
-    file: "./install-needed-components"
+    file: "./install_needed_components"
   tags: "install"
